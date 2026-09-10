@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart QC Lab Suite & Learning Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col">
+
+  <!-- Navigation Header -->
+  <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-blue-600 p-2 rounded-lg font-bold text-white text-xl">QC</div>
+        <div>
+          <h1 class="text-lg font-bold text-white leading-tight">Smart QC Assistant</h1>
+          <p class="text-xs text-slate-400">Quality Control Analytics & Comprehensive Learning Hub</p>
+        </div>
+      </div>
+      <nav class="flex flex-wrap gap-1.5 text-xs justify-center">
+        <button onclick="showTab('calculators')" id="btn-calculators" class="nav-btn bg-blue-600 text-white px-2.5 py-1.5 rounded font-medium">Calculators</button>
+        <button onclick="showTab('volumetric')" id="btn-volumetric" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Volumetric Solutions</button>
+        <button onclick="showTab('instruments')" id="btn-instruments" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Instrument SOPs (13)</button>
+        <button onclick="showTab('quizzes')" id="btn-quizzes" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Pharma Quiz</button>
+        <button onclick="showTab('links')" id="btn-links" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Important Links</button>
+        <button onclick="showTab('troubleshooter')" id="btn-troubleshooter" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Troubleshooter (13)</button>
+        <button onclick="showTab('reading-materials')" id="btn-reading-materials" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Reading Materials</button>
+        <button onclick="showTab('qa-forum')" id="btn-qa-forum" class="nav-btn bg-slate-700 text-slate-300 hover:bg-slate-600 px-2.5 py-1.5 rounded font-medium">Visitor Q&A</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-6xl mx-auto p-4 sm:p-6 flex-grow w-full">
+
+    <!-- TAB 1: CALCULATORS -->
+    <section id="tab-calculators" class="tab-content space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Assay % Purity Calculator -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+          <div class="border-b border-slate-700 pb-3 mb-4">
+            <h2 class="text-base font-bold text-blue-400">Assay % Purity Calculator</h2>
+            <p class="text-xs text-slate-400">Standard assay percentage evaluation</p>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Sample Area</label>
+                <input type="number" id="assaySampleArea" value="12500" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Standard Area</label>
+                <input type="number" id="assayStdArea" value="12450" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Sample Weight (mg)</label>
+                <input type="number" id="assaySampleWt" value="50.2" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Standard Weight (mg)</label>
+                <input type="number" id="assayStdWt" value="50.0" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Standard Purity (%)</label>
+              <input type="number" id="assayStdPurity" value="99.5" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <button onclick="calculateAssay()" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white transition mt-2">Calculate Assay %</button>
+          </div>
+
+          <div id="assayResultBox" class="mt-4 p-3 bg-slate-900 rounded border border-slate-700 hidden">
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-slate-400">Assay Result:</span>
+              <span id="assayVal" class="text-lg font-bold text-white"></span>
+            </div>
+            <p id="assayStatus" class="text-xs mt-1 font-semibold"></p>
+          </div>
+          <p id="assayError" class="text-xs text-red-400 font-semibold mt-2 hidden">Please enter valid, non-zero numeric values in all fields.</p>
+        </div>
+
+        <!-- Karl Fischer Water Content Calculator -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+          <div class="border-b border-slate-700 pb-3 mb-4">
+            <h2 class="text-base font-bold text-blue-400">Karl Fischer Water Content (% w/w)</h2>
+            <p class="text-xs text-slate-400">Volumetric titration calculation</p>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Titer Volume Used (mL)</label>
+              <input type="number" id="kfVolume" value="3.45" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">KF Reagent Factor (mg H₂O / mL)</label>
+              <input type="number" id="kfFactor" value="5.12" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Sample Weight (mg)</label>
+              <input type="number" id="kfSampleWt" value="250.0" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <button onclick="calculateKF()" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white transition mt-2">Calculate Water Content</button>
+          </div>
+
+          <div id="kfResultBox" class="mt-4 p-3 bg-slate-900 rounded border border-slate-700 hidden">
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-slate-400">Water Content:</span>
+              <span id="kfVal" class="text-lg font-bold text-white"></span>
+            </div>
+          </div>
+          <p id="kfError" class="text-xs text-red-400 font-semibold mt-2 hidden">Please enter a valid, non-zero sample weight.</p>
+        </div>
+
+        <!-- Manual / General Purpose Calculator -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+          <div class="border-b border-slate-700 pb-3 mb-4">
+            <h2 class="text-base font-bold text-blue-400">Manual Calculator</h2>
+            <p class="text-xs text-slate-400">General-purpose calculator for quick bench-side arithmetic</p>
+          </div>
+          <div class="space-y-3">
+            <input type="text" id="manualDisplay" readonly value="0" class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-right text-xl font-mono text-white">
+            <div class="grid grid-cols-4 gap-2 text-sm">
+              <button onclick="manualClear()" class="col-span-2 bg-red-900/50 hover:bg-red-900 text-red-300 font-semibold py-2 rounded">C</button>
+              <button onclick="manualBackspace()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold py-2 rounded">⌫</button>
+              <button onclick="manualAppend('/')" class="bg-slate-700 hover:bg-slate-600 text-blue-300 font-semibold py-2 rounded">÷</button>
+
+              <button onclick="manualAppend('7')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">7</button>
+              <button onclick="manualAppend('8')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">8</button>
+              <button onclick="manualAppend('9')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">9</button>
+              <button onclick="manualAppend('*')" class="bg-slate-700 hover:bg-slate-600 text-blue-300 font-semibold py-2 rounded">×</button>
+
+              <button onclick="manualAppend('4')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">4</button>
+              <button onclick="manualAppend('5')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">5</button>
+              <button onclick="manualAppend('6')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">6</button>
+              <button onclick="manualAppend('-')" class="bg-slate-700 hover:bg-slate-600 text-blue-300 font-semibold py-2 rounded">−</button>
+
+              <button onclick="manualAppend('1')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">1</button>
+              <button onclick="manualAppend('2')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">2</button>
+              <button onclick="manualAppend('3')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">3</button>
+              <button onclick="manualAppend('+')" class="bg-slate-700 hover:bg-slate-600 text-blue-300 font-semibold py-2 rounded">+</button>
+
+              <button onclick="manualAppend('0')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">0</button>
+              <button onclick="manualAppend('.')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">.</button>
+              <button onclick="manualAppend('(')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">(</button>
+              <button onclick="manualAppend(')')" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 py-2 rounded">)</button>
+
+              <button onclick="manualEquals()" class="col-span-4 bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white">=</button>
+            </div>
+            <p id="manualError" class="text-xs text-red-400 font-semibold hidden">Invalid expression.</p>
+          </div>
+        </div>
+
+        <!-- RSD Calculator -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+          <div class="border-b border-slate-700 pb-3 mb-4">
+            <h2 class="text-base font-bold text-blue-400">%RSD Calculator</h2>
+            <p class="text-xs text-slate-400">System suitability / replicate precision check</p>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Data Points (comma, space, or newline separated)</label>
+              <textarea id="rsdInput" rows="4" placeholder="e.g. 99.8, 100.1, 99.6, 100.3, 99.9" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500 font-mono text-xs"></textarea>
+            </div>
+            <button onclick="calculateRSD()" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white transition">Calculate %RSD</button>
+          </div>
+
+          <div id="rsdResultBox" class="mt-4 p-3 bg-slate-900 rounded border border-slate-700 hidden space-y-1">
+            <div class="flex justify-between text-xs text-slate-400"><span>n</span><span id="rsdN" class="text-slate-200 font-semibold"></span></div>
+            <div class="flex justify-between text-xs text-slate-400"><span>Mean</span><span id="rsdMean" class="text-slate-200 font-semibold"></span></div>
+            <div class="flex justify-between text-xs text-slate-400"><span>Std. Deviation</span><span id="rsdSD" class="text-slate-200 font-semibold"></span></div>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700 mt-1">
+              <span class="text-xs text-slate-400">%RSD</span>
+              <span id="rsdVal" class="text-lg font-bold text-white"></span>
+            </div>
+            <p id="rsdStatus" class="text-xs mt-1 font-semibold"></p>
+          </div>
+          <p id="rsdError" class="text-xs text-red-400 font-semibold mt-2 hidden">Enter at least 2 valid numeric data points.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: VOLUMETRIC SOLUTIONS & STANDARDIZATION -->
+    <section id="tab-volumetric" class="tab-content hidden space-y-6">
+
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">How to Prepare & Standardize a Volumetric Solution</h2>
+          <p class="text-xs text-slate-400">General workflow applicable to most titrant solutions used in QC titrimetry</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-300 leading-relaxed">
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2">
+            <h3 class="font-bold text-slate-200 text-sm mb-1">A. Preparation</h3>
+            <ol class="list-decimal list-inside space-y-1.5">
+              <li>Calculate the theoretical weight (or volume, for liquid reagents) needed to reach the target molarity/normality using the calculator below.</li>
+              <li>Weigh the reagent on a calibrated analytical balance, recording the exact weight taken.</li>
+              <li>Dissolve in a suitable volume of the specified solvent (usually purified/distilled water) in a beaker, stirring until fully dissolved.</li>
+              <li>Quantitatively transfer the solution into a volumetric flask of the correct target volume, rinsing the beaker into the flask.</li>
+              <li>Make up to the calibration mark with solvent, stopper, and mix thoroughly by repeated inversion.</li>
+              <li>Transfer to an appropriately labelled, dated amber or clear reagent bottle depending on light sensitivity; label with concentration, preparation date, analyst initials, and expiry/re-standardization due date.</li>
+            </ol>
+          </div>
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2">
+            <h3 class="font-bold text-slate-200 text-sm mb-1">B. Standardization</h3>
+            <ol class="list-decimal list-inside space-y-1.5">
+              <li>Accurately weigh a primary standard of known high purity (see reference table below for the correct standard).</li>
+              <li>Dissolve the primary standard in the appropriate solvent and add the specified indicator, or set up potentiometric/electrochemical endpoint detection where applicable.</li>
+              <li>Titrate with the prepared volumetric solution to the defined endpoint, recording the volume consumed.</li>
+              <li>Repeat in at least triplicate; the %RSD between replicate factor values should typically be ≤ 2.0% (use the %RSD calculator in the Calculators tab).</li>
+              <li>Calculate the standardization factor (F) using the Standardization Factor calculator below.</li>
+              <li>Record the mean factor, apply it to subsequent titration results, and set a re-standardization frequency per your site's SOP (commonly weekly to monthly, or before use if the solution is unstable).</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Common Volumetric Solutions & Their Primary Standards</h2>
+          <p class="text-xs text-slate-400">Quick reference — always confirm exact conditions against your site SOP and current pharmacopeial monograph</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-700 text-slate-400">
+                <th class="py-2 pr-3">Volumetric Solution</th>
+                <th class="py-2 pr-3">Typical Use</th>
+                <th class="py-2 pr-3">Primary Standard</th>
+                <th class="py-2 pr-3">Typical Indicator / Endpoint</th>
+              </tr>
+            </thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">0.1 N Sodium Hydroxide (NaOH)</td><td class="py-2 pr-3">Acid-base titration</td><td class="py-2 pr-3">Potassium Hydrogen Phthalate (KHP)</td><td class="py-2 pr-3">Phenolphthalein</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">0.1 N Hydrochloric Acid (HCl)</td><td class="py-2 pr-3">Acid-base titration</td><td class="py-2 pr-3">Anhydrous Sodium Carbonate</td><td class="py-2 pr-3">Methyl Orange / Methyl Red</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">0.1 N Silver Nitrate (AgNO₃)</td><td class="py-2 pr-3">Argentometric / halide titration</td><td class="py-2 pr-3">Dried Sodium Chloride (NaCl)</td><td class="py-2 pr-3">Potentiometric / Fluorescein</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">0.1 N Potassium Permanganate (KMnO₄)</td><td class="py-2 pr-3">Redox / oxidimetric titration</td><td class="py-2 pr-3">Sodium Oxalate</td><td class="py-2 pr-3">Self-indicating (pale pink endpoint)</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">0.1 N Sodium Thiosulfate (Na₂S₂O₃)</td><td class="py-2 pr-3">Iodometric titration</td><td class="py-2 pr-3">Potassium Iodate (KIO₃)</td><td class="py-2 pr-3">Starch (blue-to-colorless)</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">0.05 M EDTA (Disodium)</td><td class="py-2 pr-3">Complexometric titration</td><td class="py-2 pr-3">Calcium Carbonate (dried)</td><td class="py-2 pr-3">Eriochrome Black T</td></tr>
+              <tr><td class="py-2 pr-3">0.1 N Perchloric Acid (non-aqueous)</td><td class="py-2 pr-3">Non-aqueous acid-base titration</td><td class="py-2 pr-3">Potassium Hydrogen Phthalate (KHP)</td><td class="py-2 pr-3">Crystal Violet / Potentiometric</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">Reference: compendial general chapters on titrimetry and volumetric analysis — see
+          <a href="https://www.usp.org" target="_blank" class="text-blue-400 hover:underline">USP General Chapters</a>,
+          <a href="https://www.edqm.eu" target="_blank" class="text-blue-400 hover:underline">European Pharmacopoeia (EDQM)</a>, and
+          <a href="https://www.ich.org" target="_blank" class="text-blue-400 hover:underline">ICH Q2(R2) Analytical Validation</a> for the current authoritative procedures and acceptance criteria applicable to your product.
+        </p>
+      </div>
+
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Preparing Volumetric Solutions from Liquid (Concentrated) Chemicals</h2>
+          <p class="text-xs text-slate-400">For reagents supplied as concentrated liquids (acids, ammonia solution, etc.) rather than solids</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-300 leading-relaxed mb-6">
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2">
+            <h3 class="font-bold text-slate-200 text-sm mb-1">Why liquids are handled differently</h3>
+            <p>Concentrated liquid reagents (e.g. Hydrochloric Acid, Sulfuric Acid, Acetic Acid, Ammonia solution) are not 100% pure compound — they are sold at a stated <span class="text-slate-100 font-semibold">assay % (w/w)</span> and have a known <span class="text-slate-100 font-semibold">specific gravity</span>. Both values (printed on the reagent bottle / Certificate of Analysis) are needed to work out how much of the liquid actually contains the required weight of active substance.</p>
+          </div>
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2">
+            <h3 class="font-bold text-slate-200 text-sm mb-1">General procedure</h3>
+            <ol class="list-decimal list-inside space-y-1.5">
+              <li>Record the assay % and specific gravity from the bottle label/CoA for that lot.</li>
+              <li>Use the Liquid Reagent Dilution Calculator below to work out the volume of concentrated liquid required.</li>
+              <li>Measure roughly half the target volume of solvent (usually purified water) into a beaker or volumetric flask first.</li>
+              <li>Slowly add the measured concentrated liquid to the water — <span class="text-slate-100 font-semibold">never water into concentrated acid</span> — swirling/stirring to dissipate heat.</li>
+              <li>Cool to room temperature, transfer to the volumetric flask, and make up to volume with solvent.</li>
+              <li>Mix thoroughly, label, and standardize against the appropriate primary standard as described above before use.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto mb-2">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-700 text-slate-400">
+                <th class="py-2 pr-3">Liquid Reagent</th>
+                <th class="py-2 pr-3">Typical Assay (w/w)</th>
+                <th class="py-2 pr-3">Typical Specific Gravity</th>
+                <th class="py-2 pr-3">Equivalent Weight (g/eq)</th>
+              </tr>
+            </thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">Hydrochloric Acid (HCl)</td><td class="py-2 pr-3">~35 - 38%</td><td class="py-2 pr-3">~1.18</td><td class="py-2 pr-3">36.46</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">Sulfuric Acid (H₂SO₄)</td><td class="py-2 pr-3">~98%</td><td class="py-2 pr-3">~1.84</td><td class="py-2 pr-3">49.04</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">Nitric Acid (HNO₃)</td><td class="py-2 pr-3">~69 - 70%</td><td class="py-2 pr-3">~1.42</td><td class="py-2 pr-3">63.01</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">Glacial Acetic Acid</td><td class="py-2 pr-3">~99.5%</td><td class="py-2 pr-3">~1.05</td><td class="py-2 pr-3">60.05</td></tr>
+              <tr class="border-b border-slate-800"><td class="py-2 pr-3">Perchloric Acid (HClO₄)</td><td class="py-2 pr-3">~70 - 72%</td><td class="py-2 pr-3">~1.67</td><td class="py-2 pr-3">100.46</td></tr>
+              <tr><td class="py-2 pr-3">Ammonia Solution (NH₄OH)</td><td class="py-2 pr-3">~25 - 28%</td><td class="py-2 pr-3">~0.90</td><td class="py-2 pr-3">35.05</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-slate-500 mb-6">Values above are typical/indicative only — always use the actual assay % and specific gravity from the current bottle label or Certificate of Analysis for the calculation, since these vary by lot and supplier.</p>
+
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-3 text-sm max-w-xl">
+          <h3 class="font-bold text-slate-200 text-sm">Liquid Reagent Dilution Calculator</h3>
+          <p class="text-xs text-slate-400">Calculates the volume of concentrated liquid to dilute to your target volume/normality.</p>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Target Normality (N)</label>
+              <input type="number" id="liqNormality" value="0.1" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Target Volume (mL)</label>
+              <input type="number" id="liqVolume" value="1000" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Equivalent Weight (g/eq)</label>
+            <input type="number" id="liqEqWt" value="36.46" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Specific Gravity (g/mL)</label>
+              <input type="number" id="liqSpGravity" value="1.18" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Assay Purity (% w/w)</label>
+              <input type="number" id="liqAssay" value="37" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+            </div>
+          </div>
+          <button onclick="calculateLiquidDilution()" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white text-xs">Calculate Volume of Concentrated Liquid Needed</button>
+          <div id="liqDilutionResult" class="text-xs text-green-400 font-bold hidden"></div>
+        </div>
+      </div>
+
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Preparation & Standardization Calculators</h2>
+          <p class="text-xs text-slate-400">Preparation protocol & Molarity/Normality standardization factor calculator</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Preparation Calculator -->
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-3 text-sm">
+            <h3 class="font-bold text-slate-200 text-sm">1. Solution Weight Preparation Formula</h3>
+            <p class="text-xs text-slate-400">Calculate target weight to dissolve for desired volume and molarity.</p>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Molar Mass (g/mol)</label>
+              <input type="number" id="volMW" value="40.00" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Target Molarity (M)</label>
+                <input type="number" id="volMolar" value="0.1" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Target Volume (mL)</label>
+                <input type="number" id="volVolume" value="1000" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+              </div>
+            </div>
+            <button onclick="calculateVolPrep()" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white text-xs">Calculate Required Mass</button>
+            <div id="volPrepResult" class="text-xs text-green-400 font-bold hidden"></div>
+          </div>
+
+          <!-- Standardization Factor Calculator -->
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-3 text-sm">
+            <h3 class="font-bold text-slate-200 text-sm">2. Standardization Factor Determination</h3>
+            <p class="text-xs text-slate-400">Calculate exact normality / factor (F) using primary standard titration.</p>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Primary Standard Mass (mg)</label>
+              <input type="number" id="stdPrimaryMass" value="204.2" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Titrant Volume (mL)</label>
+                <input type="number" id="stdTitrantVol" value="10.05" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Equivalence Mass (mg/mL)</label>
+                <input type="number" id="stdEqMass" value="20.42" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none">
+              </div>
+            </div>
+            <button onclick="calculateMolarFactor()" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2 rounded text-white text-xs">Calculate Standardization Factor (F)</button>
+            <div id="stdFactorResult" class="text-xs text-green-400 font-bold hidden"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: INSTRUMENT SOPS DIRECTORY (13 INSTRUMENTS) -->
+    <section id="tab-instruments" class="tab-content hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Instrument SOP & Operating Procedures Directory</h2>
+          <p class="text-xs text-slate-400">Select any instrument to view operational guidelines and calibration checks</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-6">
+          <button onclick="loadSOP('viscometer')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Viscometer</button>
+          <button onclick="loadSOP('kf')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Karl Fischer</button>
+          <button onclick="loadSOP('polarimeter')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Polarimeter</button>
+          <button onclick="loadSOP('uvvis')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">UV-Vis Spectro</button>
+          <button onclick="loadSOP('hplc')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">HPLC</button>
+          <button onclick="loadSOP('gc')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Gas Chromatography (GC)</button>
+          <button onclick="loadSOP('ftir')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">FTIR Spectrometer</button>
+          <button onclick="loadSOP('sieve')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Sieve Shaker</button>
+          <button onclick="loadSOP('friability')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Friability Tester</button>
+          <button onclick="loadSOP('ph')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">pH Meter</button>
+          <button onclick="loadSOP('conductivity')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Conductivity Meter</button>
+          <button onclick="loadSOP('dissolution')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Dissolution Tester</button>
+          <button onclick="loadSOP('moisture')" class="p-2.5 bg-slate-900 hover:bg-blue-900/40 border border-slate-700 rounded text-left text-xs font-semibold text-slate-300">Moisture Analyzer</button>
+        </div>
+
+        <div id="sopDisplay" class="bg-slate-900 p-5 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-2">
+          <p class="text-slate-400 italic">Click any instrument button above to load its operation protocol.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PHARMACEUTICAL & CHEMISTRY QUIZZES -->
+    <section id="tab-quizzes" class="tab-content hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+          <div>
+            <h2 class="text-base font-bold text-blue-400">Pharmaceutical QC & Chemistry Quiz</h2>
+            <p class="text-xs text-slate-400">Test your knowledge on analytical methods, pharmacopeia, and GLP</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="quizScore" class="text-xs font-bold bg-blue-900/50 text-blue-300 px-3 py-1 rounded border border-blue-700">Score: 0</span>
+            <button onclick="resetQuiz()" class="text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1 rounded border border-slate-600">Retake Quiz</button>
+          </div>
+        </div>
+
+        <div id="quizCategoryBar" class="flex flex-wrap gap-1.5 mb-4 text-xs"></div>
+
+        <div id="quizContainer" class="bg-slate-900 p-5 rounded-xl border border-slate-700 space-y-4">
+          <!-- Dynamic Quiz Items Load Here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: IMPORTANT REGULATORY & PHARMACOPEIA LINKS -->
+    <section id="tab-links" class="tab-content hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Important Pharmaceutical & Regulatory Links Hub</h2>
+          <p class="text-xs text-slate-400">Direct access to official international pharmacopeia guidelines and compendial portals</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <a href="https://www.usp.org" target="_blank" class="bg-slate-900 p-4 rounded-xl border border-slate-700 hover:border-blue-500 transition block">
+            <h3 class="font-bold text-blue-300 text-sm mb-1">United States Pharmacopeia (USP)</h3>
+            <p class="text-slate-400 mb-2">Official portal for compendial monographs, analytical standard reference materials, and general chapters.</p>
+            <span class="text-blue-400 font-semibold">Visit usp.org &rarr;</span>
+          </a>
+
+          <a href="https://www.edqm.eu" target="_blank" class="bg-slate-900 p-4 rounded-xl border border-slate-700 hover:border-blue-500 transition block">
+            <h3 class="font-bold text-blue-300 text-sm mb-1">European Pharmacopoeia (EDQM)</h3>
+            <p class="text-slate-400 mb-2">European Directorate for the Quality of Medicines & HealthCare standards and reference substances.</p>
+            <span class="text-blue-400 font-semibold">Visit edqm.eu &rarr;</span>
+          </a>
+
+          <a href="https://www.fda.gov/drugs/development-approval-process-drugs/pharmaceutical-quality-resources" target="_blank" class="bg-slate-900 p-4 rounded-xl border border-slate-700 hover:border-blue-500 transition block">
+            <h3 class="font-bold text-blue-300 text-sm mb-1">US FDA Office of Pharmaceutical Quality (OPQ)</h3>
+            <p class="text-slate-400 mb-2">Guidance documents, cGMP requirements, laboratory testing methods, and compliance resources.</p>
+            <span class="text-blue-400 font-semibold">Visit FDA OPQ &rarr;</span>
+          </a>
+
+          <a href="https://www.ich.org" target="_blank" class="bg-slate-900 p-4 rounded-xl border border-slate-700 hover:border-blue-500 transition block">
+            <h3 class="font-bold text-blue-300 text-sm mb-1">ICH Quality Guidelines (Q1 - Q14)</h3>
+            <p class="text-slate-400 mb-2">International Council for Harmonisation guidelines covering stability testing, analytical validation, and impurities.</p>
+            <span class="text-blue-400 font-semibold">Visit ich.org &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: FULL INSTRUMENT TROUBLESHOOTER -->
+    <section id="tab-troubleshooter" class="tab-content hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Instrument Troubleshooting Assistant</h2>
+          <p class="text-xs text-slate-400">Select an instrument to see its common problems, likely causes, and corrective steps</p>
+        </div>
+
+        <div class="mb-5">
+          <label class="block text-xs text-slate-400 mb-1">Select Instrument</label>
+          <select id="troubleshootSelect" onchange="loadTroubleshoot(this.value)" class="w-full sm:w-80 bg-slate-900 border border-slate-700 rounded p-2 text-white text-sm focus:outline-none focus:border-blue-500">
+            <option value="">-- Choose an instrument --</option>
+          </select>
+        </div>
+
+        <div id="troubleshootDisplay" class="space-y-3">
+          <p class="text-xs text-slate-400 italic">Select an instrument above to view its troubleshooting guide.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: READING MATERIALS & DOCUMENT UPLOADER -->
+    <section id="tab-reading-materials" class="tab-content hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Reading Materials & Document Hub</h2>
+          <p class="text-xs text-slate-400">Upload and manage lab SOPs, reference guides, and analytical papers</p>
+        </div>
+
+        <div class="bg-slate-900 border-2 border-dashed border-slate-700 rounded-xl p-6 text-center mb-6">
+          <p class="text-sm font-semibold text-slate-300 mb-1">Upload QC Reading Material</p>
+          <p class="text-xs text-slate-500 mb-4">Select PDF, TXT, or Document files from your device</p>
+          <input type="file" id="docUploadInput" class="hidden" onchange="handleFileUpload(event)">
+          <button onclick="document.getElementById('docUploadInput').click()" class="bg-blue-600 hover:bg-blue-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition">Browse Files</button>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold text-slate-300 mb-3">Available QC Reference Materials</h3>
+          <div id="materialsList" class="space-y-3">
+            <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 flex justify-between items-center">
+              <div>
+                <h4 class="text-sm font-semibold text-blue-300">HPLC Method Development Overview</h4>
+                <p class="text-xs text-slate-400">Pre-loaded PDF Guide • Fundamentals of Reversed-Phase Column Selection</p>
+              </div>
+              <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded border border-slate-700">Pre-loaded</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 8: VISITOR Q&A BOX -->
+    <section id="tab-qa-forum" class="tab-content hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+        <div class="border-b border-slate-700 pb-3 mb-4">
+          <h2 class="text-base font-bold text-blue-400">Visitor Q&A & Community Thread</h2>
+          <p class="text-xs text-slate-400">Ask questions about laboratory testing, instrument troubleshooting, or compliance</p>
+        </div>
+
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 mb-6 space-y-3 text-sm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input type="text" id="visitorName" placeholder="Your Name or Title (e.g. QC Analyst)" class="bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+            <input type="text" id="questionTopic" placeholder="Topic (e.g. UV-Vis Calibration)" class="bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <textarea id="questionBody" rows="3" placeholder="Type your question or lab query here..." class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white focus:outline-none focus:border-blue-500"></textarea>
+          <button onclick="submitQuestion()" class="bg-blue-600 hover:bg-blue-500 font-semibold px-4 py-2 rounded text-white text-xs transition">Post Question</button>
+        </div>
+
+        <div id="qaList" class="space-y-4">
+          <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span class="font-bold text-blue-300">Junior Analyst</span>
+              <span>Topic: HPLC Mobile Phase</span>
+            </div>
+            <p class="text-sm text-slate-200">How long can buffered mobile phases be kept on the HPLC instrument before microbial growth becomes an issue?</p>
+            <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 text-xs text-slate-300 mt-2">
+              <p class="font-bold text-green-400 mb-1">Answer from QC Specialist:</p>
+              <p>A standard rule of thumb for aqueous buffer solutions without organic solvents is 24 to 48 hours max. Buffers with ≥ 20% organic phase can last up to 1-2 weeks in a sealed reservoir.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer with Personal Contact Details -->
+  <footer class="bg-slate-800 border-t border-slate-700 p-6 text-slate-400 text-xs">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <p class="font-bold text-slate-200 text-sm">Developed by Christopher Chitumbi — Quality Control Analyst</p>
+        <p>Analytical Chemistry & Pharmaceutical Laboratory Platform</p>
+        <p class="mt-0.5">Email: <a href="mailto:christopherchitumbi171@gmail.com" class="text-blue-400 hover:underline">christopherchitumbi171@gmail.com</a></p>
+      </div>
+      <div class="text-center md:text-right">
+        <p class="font-semibold text-slate-300">Zenufa Laboratories Ltd</p>
+        <p>P.O. Box 3230, Ilala, Dar es Salaam, Tanzania</p>
+        <p class="text-slate-500 mt-0.5">Contact & Support Hub</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    // Utility: escape user-entered text before inserting into innerHTML
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // Tab Navigation
+    function showTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('bg-slate-700', 'text-slate-300');
+      });
+
+      document.getElementById('tab-' + tabName).classList.remove('hidden');
+      const activeBtn = document.getElementById('btn-' + tabName);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-700', 'text-slate-300');
+        activeBtn.classList.add('bg-blue-600', 'text-white');
+      }
+    }
+
+    // ===================== CALCULATIONS =====================
+    function calculateAssay() {
+      const sampleArea = parseFloat(document.getElementById('assaySampleArea').value);
+      const stdArea = parseFloat(document.getElementById('assayStdArea').value);
+      const sampleWt = parseFloat(document.getElementById('assaySampleWt').value);
+      const stdWt = parseFloat(document.getElementById('assayStdWt').value);
+      const stdPurity = parseFloat(document.getElementById('assayStdPurity').value);
+      const errorEl = document.getElementById('assayError');
+
+      if (!isFinite(sampleArea) || !isFinite(stdArea) || !isFinite(sampleWt) || !isFinite(stdWt) || !isFinite(stdPurity) || stdArea <= 0 || sampleWt <= 0) {
+        errorEl.classList.remove('hidden');
+        document.getElementById('assayResultBox').classList.add('hidden');
+        return;
+      }
+      errorEl.classList.add('hidden');
+
+      const assay = ((sampleArea / stdArea) * (stdWt / sampleWt) * stdPurity).toFixed(2);
+      document.getElementById('assayVal').innerText = assay + '%';
+
+      const status = document.getElementById('assayStatus');
+      if (assay >= 98.0 && assay <= 102.0) {
+        status.innerText = 'STATUS: PASS (In Specification: 98.0% - 102.0%)';
+        status.className = 'text-xs mt-1 font-semibold text-green-400';
+      } else {
+        status.innerText = 'STATUS: OUT OF SPECIFICATION (OOS)';
+        status.className = 'text-xs mt-1 font-semibold text-red-400';
+      }
+      document.getElementById('assayResultBox').classList.remove('hidden');
+    }
+
+    function calculateKF() {
+      const vol = parseFloat(document.getElementById('kfVolume').value);
+      const factor = parseFloat(document.getElementById('kfFactor').value);
+      const sampleWt = parseFloat(document.getElementById('kfSampleWt').value);
+      const errorEl = document.getElementById('kfError');
+
+      if (!isFinite(vol) || !isFinite(factor) || !isFinite(sampleWt) || sampleWt <= 0) {
+        errorEl.classList.remove('hidden');
+        document.getElementById('kfResultBox').classList.add('hidden');
+        return;
+      }
+      errorEl.classList.add('hidden');
+
+      const waterContent = ((vol * factor / sampleWt) * 100).toFixed(3);
+      document.getElementById('kfVal').innerText = waterContent + '% w/w';
+      document.getElementById('kfResultBox').classList.remove('hidden');
+    }
+
+    function calculateVolPrep() {
+      const mw = parseFloat(document.getElementById('volMW').value);
+      const M = parseFloat(document.getElementById('volMolar').value);
+      const V = parseFloat(document.getElementById('volVolume').value);
+      const res = document.getElementById('volPrepResult');
+
+      if (!isFinite(mw) || !isFinite(M) || !isFinite(V) || mw <= 0 || M <= 0 || V <= 0) {
+        res.innerText = 'Please enter valid, positive values for molar mass, molarity, and volume.';
+        res.className = 'text-xs text-red-400 font-bold';
+        res.classList.remove('hidden');
+        return;
+      }
+
+      const requiredGrams = (M * (V / 1000) * mw).toFixed(4);
+      res.innerText = `Required Weight: ${requiredGrams} g to prepare ${V} mL of ${M} M solution.`;
+      res.className = 'text-xs text-green-400 font-bold';
+      res.classList.remove('hidden');
+    }
+
+    function calculateMolarFactor() {
+      const mass = parseFloat(document.getElementById('stdPrimaryMass').value);
+      const vol = parseFloat(document.getElementById('stdTitrantVol').value);
+      const eqMass = parseFloat(document.getElementById('stdEqMass').value);
+      const res = document.getElementById('stdFactorResult');
+
+      if (!isFinite(mass) || !isFinite(vol) || !isFinite(eqMass) || vol <= 0 || eqMass <= 0) {
+        res.innerText = 'Please enter valid, positive values for mass, titrant volume, and equivalence mass.';
+        res.className = 'text-xs text-red-400 font-bold';
+        res.classList.remove('hidden');
+        return;
+      }
+
+      const factor = (mass / (vol * eqMass)).toFixed(4);
+      res.innerText = `Standardization Factor (F): ${factor}`;
+      res.className = 'text-xs text-green-400 font-bold';
+      res.classList.remove('hidden');
+    }
+
+    function calculateLiquidDilution() {
+      const N = parseFloat(document.getElementById('liqNormality').value);
+      const V = parseFloat(document.getElementById('liqVolume').value);
+      const eqWt = parseFloat(document.getElementById('liqEqWt').value);
+      const spGravity = parseFloat(document.getElementById('liqSpGravity').value);
+      const assay = parseFloat(document.getElementById('liqAssay').value);
+      const res = document.getElementById('liqDilutionResult');
+
+      if (!isFinite(N) || !isFinite(V) || !isFinite(eqWt) || !isFinite(spGravity) || !isFinite(assay) ||
+          N <= 0 || V <= 0 || eqWt <= 0 || spGravity <= 0 || assay <= 0) {
+        res.innerText = 'Please enter valid, positive values in all fields.';
+        res.className = 'text-xs text-red-400 font-bold';
+        res.classList.remove('hidden');
+        return;
+      }
+
+      // Required weight of pure active substance (g) = N * eqWt * V(L)
+      const requiredWeightG = N * eqWt * (V / 1000);
+      // Weight of concentrated liquid needed (g) = required weight / (assay fraction)
+      const liquidWeightG = requiredWeightG / (assay / 100);
+      // Volume of concentrated liquid needed (mL) = weight / specific gravity
+      const liquidVolumeML = liquidWeightG / spGravity;
+
+      res.innerHTML = `Measure <span class="text-white">${liquidVolumeML.toFixed(2)} mL</span> of the concentrated liquid (at ${assay}% assay, SG ${spGravity}) and dilute to ${V} mL with solvent to obtain ${N} N solution.`;
+      res.className = 'text-xs text-green-400 font-bold';
+      res.classList.remove('hidden');
+    }
+
+    // ---- Manual Calculator ----
+    function manualAppend(char) {
+      const display = document.getElementById('manualDisplay');
+      document.getElementById('manualError').classList.add('hidden');
+      if (display.value === '0' && !'.()'.includes(char)) {
+        display.value = char;
+      } else {
+        display.value += char;
+      }
+    }
+
+    function manualClear() {
+      document.getElementById('manualDisplay').value = '0';
+      document.getElementById('manualError').classList.add('hidden');
+    }
+
+    function manualBackspace() {
+      const display = document.getElementById('manualDisplay');
+      display.value = display.value.length > 1 ? display.value.slice(0, -1) : '0';
+    }
+
+    function manualEquals() {
+      const display = document.getElementById('manualDisplay');
+      const errorEl = document.getElementById('manualError');
+      const expr = display.value;
+
+      // Only allow digits, decimal points, parentheses, and + - * / operators
+      if (!/^[0-9+\-*/.() ]+$/.test(expr)) {
+        errorEl.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const result = Function('"use strict"; return (' + expr + ')')();
+        if (!isFinite(result)) throw new Error('non-finite');
+        display.value = String(Math.round(result * 1e8) / 1e8);
+        errorEl.classList.add('hidden');
+      } catch (e) {
+        errorEl.classList.remove('hidden');
+      }
+    }
+
+    // ---- RSD Calculator ----
+    function calculateRSD() {
+      const raw = document.getElementById('rsdInput').value;
+      const errorEl = document.getElementById('rsdError');
+      const resultBox = document.getElementById('rsdResultBox');
+
+      const values = raw
+        .split(/[\s,]+/)
+        .map(v => v.trim())
+        .filter(v => v.length > 0)
+        .map(v => parseFloat(v));
+
+      if (values.length < 2 || values.some(v => !isFinite(v))) {
+        errorEl.classList.remove('hidden');
+        resultBox.classList.add('hidden');
+        return;
+      }
+      errorEl.classList.add('hidden');
+
+      const n = values.length;
+      const mean = values.reduce((a, b) => a + b, 0) / n;
+      const variance = values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1);
+      const sd = Math.sqrt(variance);
+      const rsd = mean !== 0 ? (sd / mean) * 100 : NaN;
+
+      document.getElementById('rsdN').innerText = n;
+      document.getElementById('rsdMean').innerText = mean.toFixed(4);
+      document.getElementById('rsdSD').innerText = sd.toFixed(4);
+      document.getElementById('rsdVal').innerText = isFinite(rsd) ? rsd.toFixed(2) + '%' : 'N/A';
+
+      const status = document.getElementById('rsdStatus');
+      if (isFinite(rsd) && rsd <= 2.0) {
+        status.innerText = 'STATUS: PASS (%RSD ≤ 2.0%)';
+        status.className = 'text-xs mt-1 font-semibold text-green-400';
+      } else {
+        status.innerText = 'STATUS: FAIL (%RSD > 2.0%)';
+        status.className = 'text-xs mt-1 font-semibold text-red-400';
+      }
+      resultBox.classList.remove('hidden');
+    }
+
+    // ===================== SOP DIRECTORY DATA (13 Instruments) =====================
+    const sopData = {
+      viscometer: {
+        title: "Rotational Viscometer Standard Operation",
+        steps: "1. Level the viscometer using the spirit level bubble.\n2. Select spindle size based on expected sample viscosity range.\n3. Lower spindle into sample until fluid level meets groove mark on shaft.\n4. Set motor speed (RPM) and run until viscosity display stabilizes."
+      },
+      kf: {
+        title: "Karl Fischer Volumetric Titrator",
+        steps: "1. Pre-titrate cell to neutral zero water drift (<10 µg/min).\n2. Standardize KF reagent using USP Purified Water or Sodium Tartrate Standard to determine Factor (F).\n3. Accurately weigh sample via difference and introduce into titration cell.\n4. Record endpoint water content (% w/w)."
+      },
+      polarimeter: {
+        title: "Digital Optical Polarimeter",
+        steps: "1. Zero instrument using clean polarimeter tube filled with blank solvent (e.g., Purified Water).\n2. Fill sample tube ensuring zero trapped air bubbles in light path.\n3. Measure optical rotation (α) at 589 nm (Sodium D line).\n4. Calculate Specific Optical Rotation [α] = (100 * α) / (l * c)."
+      },
+      uvvis: {
+        title: "UV-Vis Spectrophotometer",
+        steps: "1. Perform lamp warm-up (15-20 mins) and optical self-check.\n2. Set target wavelength (nm) and record baseline reference using blank cuvette.\n3. Measure sample absorbance (A) ensuring values fall between 0.2 and 0.8 AU for linear Beer-Lambert response."
+      },
+      hplc: {
+        title: "High-Performance Liquid Chromatography (HPLC)",
+        steps: "1. Purge solvents and prime pumps with degassed mobile phase.\n2. Equilibrate C18 column at specified flow rate and temperature until baseline pressure stabilizes.\n3. Inject standard sequence (%RSD of peak area ≤ 2.0% required).\n4. Inject test samples and compute chromatographic assay/purity."
+      },
+      gc: {
+        title: "Gas Chromatography (GC)",
+        steps: "1. Check carrier gas pressures (Helium/Nitrogen) and hydrogen/air supply for FID detector.\n2. Set capillary column oven temperature program and injector temp.\n3. Inject sample via autosampler syringe.\n4. Verify retention time match against standard sequence."
+      },
+      ftir: {
+        title: "FTIR Spectrometer Raw Material Identification",
+        steps: "1. Clean ATR diamond crystal surface with isopropyl alcohol.\n2. Collect background spectrum scan.\n3. Apply solid/liquid sample to ATR crystal and acquire sample spectrum.\n4. Compare spectrum against reference monograph library (Correlation Coefficient ≥ 0.95)."
+      },
+      sieve: {
+        title: "Sieve Shaker Particle Size Distribution",
+        steps: "1. Assemble clean, weighed sieves in descending mesh order onto shaker base.\n2. Tare top sieve and add test powder sample (e.g., 50g).\n3. Set agitation amplitude and time (e.g., 5 mins).\n4. Weigh retained powder on each sieve to calculate cumulative percentage."
+      },
+      friability: {
+        title: "Tablet Friability Tester",
+        steps: "1. Take 10 or 20 tablets, dedust, and record initial combined weight (W1).\n2. Load tablets into drum and rotate 100 revolutions at 25 RPM.\n3. Remove tablets, dedust thoroughly, and re-weigh (W2).\n4. Friability (%) = [(W1 - W2) / W1] * 100. Acceptance limit: ≤ 1.0% loss."
+      },
+      ph: {
+        title: "Digital pH Meter Calibration & Measurement",
+        steps: "1. Rinse probe with deionized water.\n2. Calibrate using 2-point or 3-point standard buffers (pH 4.01, 7.00, 10.01).\n3. Ensure slope percentage falls between 95% - 105%.\n4. Submerge electrode in sample and record stabilized pH."
+      },
+      conductivity: {
+        title: "Benchtop Conductivity Meter",
+        steps: "1. Calibrate cell constant using standard KCl solution (e.g., 1413 µS/cm).\n2. Rinse conductivity cell thoroughly with purified water.\n3. Immerse cell into sample fluid without touching vessel walls.\n4. Record temperature-compensated conductivity."
+      },
+      dissolution: {
+        title: "Dissolution Test Apparatus (USP I Basket / USP II Paddle)",
+        steps: "1. Fill vessels with degassed dissolution medium (e.g., 900 mL) and warm to 37.0°C ± 0.5°C.\n2. Drop tablets/capsules into vessels and start rotation at target RPM.\n3. Withdraw aliquots at specified time points (e.g., 15, 30, 45 min) via inline filter.\n4. Quantify active drug released via UV-Vis or HPLC."
+      },
+      moisture: {
+        title: "Halogen Moisture Analyzer (Loss on Drying - LOD)",
+        steps: "1. Place clean aluminum sample pan on balance dish and tare.\n2. Evenly spread thin layer of powder sample (e.g., 2-5g).\n3. Select drying temperature program (e.g., 105°C auto-endpoint).\n4. Record final Loss on Drying percentage when weight loss ceases."
+      }
+    };
+
+    function loadSOP(key) {
+      const display = document.getElementById('sopDisplay');
+      const item = sopData[key];
+      if (item) {
+        display.innerHTML = `
+          <h3 class="font-bold text-sm text-blue-400 mb-1">${item.title}</h3>
+          <p class="whitespace-pre-line text-slate-300 leading-relaxed font-mono text-xs">${item.steps}</p>
+        `;
+      }
+    }
+
+    // ===================== FULL TROUBLESHOOTER DATA (13 Instruments) =====================
+    const troubleshootData = {
+      viscometer: { label: "Rotational Viscometer", issues: [
+        { issue: "Erratic or fluctuating torque reading", causes: ["Air bubbles trapped around the spindle", "Spindle not immersed to the correct guide mark", "Sample not temperature-equilibrated"], fixes: ["Degas the sample or load it gently to avoid entrainment", "Re-immerse the spindle to the marked depth", "Hold sample at target temperature until stable before testing"] },
+        { issue: "Torque reading near zero or over-range (overload)", causes: ["Wrong spindle selected for the sample's viscosity range", "Motor speed too low or too high"], fixes: ["Select a spindle sized for the expected cP range per the spindle chart", "Adjust RPM so the reading falls within roughly 10-90% of full-scale torque"] },
+        { issue: "Non-reproducible results between replicates", causes: ["Sample is shear-thinning/thixotropic and speed varies run to run", "Container diameter too small (wall effects)"], fixes: ["Keep spindle and speed identical across all replicates", "Use a container/guard-leg large enough to avoid wall drag effects"] }
+      ]},
+      kf: { label: "Karl Fischer Titrator", issues: [
+        { issue: "High or unstable drift before titration", causes: ["Moisture ingress from a leaking cell or septum", "Old/contaminated KF reagent", "Insufficient pre-titration"], fixes: ["Check cell seals, septum, and desiccant tubes for leaks", "Replace KF reagent and re-standardize", "Pre-titrate to a stable baseline drift before sample introduction"] },
+        { issue: "Erratic or non-reproducible endpoint / factor", causes: ["Reagent factor not current", "Sample not fully dissolved or reacting slowly", "Air introduced during syringe/needle injection"], fixes: ["Re-standardize reagent and update the factor", "Allow adequate stirring/reaction time before endpoint detection", "Inject sample quickly through the septum, avoiding air pockets"] },
+        { issue: "Result consistently higher than expected", causes: ["Sample hygroscopic and absorbing moisture during weighing", "Ambient humidity entering the cell"], fixes: ["Minimize sample exposure time to air; weigh quickly in a dry environment", "Check cell desiccant and keep septum ports sealed between injections"] }
+      ]},
+      polarimeter: { label: "Digital Polarimeter", issues: [
+        { issue: "Unstable or drifting rotation reading", causes: ["Air bubbles in the sample tube", "Sample temperature not equilibrated (rotation is temperature-dependent)"], fixes: ["Refill tube carefully to eliminate bubbles in the light path", "Allow the sample to equilibrate to the specified temperature (commonly 20°C)"] },
+        { issue: "Zero point will not calibrate", causes: ["Tube not filled with true blank solvent", "Dirty or scratched tube end windows"], fixes: ["Use fresh blank solvent matching the sample matrix", "Clean or replace tube end windows"] },
+        { issue: "Result outside expected specific rotation range", causes: ["Incorrect concentration or path length used in calculation", "Sample turbidity scattering light"], fixes: ["Verify concentration (c) and path length (l) entered match the actual prep", "Filter or clarify turbid samples before measurement"] }
+      ]},
+      uvvis: { label: "UV-Vis Spectrophotometer", issues: [
+        { issue: "High baseline noise or drift", causes: ["Lamp not fully warmed up", "Dirty or scratched cuvette", "Air bubbles in the light path"], fixes: ["Allow full lamp warm-up time (typically 15-20 min) before use", "Use matched, clean quartz cuvettes; replace if scratched", "Tap cuvette gently to dislodge bubbles before reading"] },
+        { issue: "Absorbance reading out of linear range (>0.8 AU or <0.2 AU)", causes: ["Sample concentration too high or too low for the method"], fixes: ["Dilute or concentrate the sample to bring absorbance into the 0.2-0.8 AU linear range"] },
+        { issue: "Poor reproducibility between reference and sample scans", causes: ["Blank/reference not matched to sample solvent", "Cuvette orientation inconsistent between reads"], fixes: ["Use identical solvent/matrix for blank and sample", "Insert cuvette in the same orientation each time (align the etched mark)"] }
+      ]},
+      hplc: { label: "HPLC", issues: [
+        { issue: "High system backpressure", causes: ["Blocked inline or column inlet frit", "Precipitated buffer or particulates in mobile phase", "Kinked or blocked tubing"], fixes: ["Disconnect the column to isolate pump vs. column source of pressure", "Inspect and replace the inlet guard column frit", "Verify mobile phase solvent miscibility and filter all buffers before use"] },
+        { issue: "Peak tailing or splitting", causes: ["Blocked or contaminated column inlet frit", "Sample solvent strength mismatched to mobile phase", "Particulates in the sample"], fixes: ["Check/replace the column inlet frit", "Match sample diluent strength to the mobile phase as closely as possible", "Filter samples through a 0.45 µm membrane before injection"] },
+        { issue: "Baseline drift or noise", causes: ["Air bubbles in the detector flow cell", "Column/system not fully equilibrated", "Ambient temperature fluctuation"], fixes: ["Purge the detector flow cell to remove trapped air", "Allow 10-15 column volumes of equilibration before injecting", "Control room/column oven temperature to minimize fluctuation"] },
+        { issue: "Retention time shifting between injections", causes: ["Mobile phase composition drifting (pump proportioning error)", "Column temperature not controlled", "Column aging/degradation"], fixes: ["Check pump proportioning valves and degasser function", "Use a column oven for consistent temperature control", "Track column usage/injection count and replace per lifetime guidance"] },
+        { issue: "No peaks or unexpectedly low response", causes: ["Detector lamp expired or lost sensitivity", "Sample not injected (blocked needle/loop) or diluted incorrectly", "Wrong detection wavelength selected"], fixes: ["Check detector lamp hours and replace if expired", "Verify injector needle/loop for blockage and confirm sample prep", "Confirm the wavelength matches the analyte's absorbance maximum"] }
+      ]},
+      gc: { label: "Gas Chromatography (GC)", issues: [
+        { issue: "No peaks detected", causes: ["Carrier gas supply empty or leaking", "Detector not lit/activated (FID flame out)", "Septum leak at the injection port"], fixes: ["Check carrier gas cylinder pressure and line leaks", "Re-ignite FID flame and verify H2/air flows", "Replace injector septum"] },
+        { issue: "Ghost peaks or carryover between runs", causes: ["Sample carryover in the injector liner or needle", "Column contamination from prior non-volatile residues"], fixes: ["Replace/clean the injector liner regularly", "Run a high-temperature bake-out or condition the column"] },
+        { issue: "Retention time drift", causes: ["Oven temperature program not reproducible", "Carrier gas flow/pressure fluctuating", "Column degradation from repeated high-temp exposure"], fixes: ["Verify oven calibration and temperature program settings", "Check carrier gas regulator and flow controller stability", "Trim or replace the column if performance has degraded"] },
+        { issue: "Poor peak shape (tailing/fronting)", causes: ["Active sites in an aged or contaminated liner", "Column overloaded with too much sample"], fixes: ["Replace the injector liner and inspect for column activity", "Reduce injection volume or increase split ratio"] }
+      ]},
+      ftir: { label: "FTIR Spectrometer", issues: [
+        { issue: "Weak or noisy spectrum", causes: ["Poor sample contact with the ATR crystal", "Insufficient sample applied", "Background not refreshed recently"], fixes: ["Apply firm, even pressure to ensure full contact with the crystal", "Apply an adequate, even layer of sample", "Re-collect background scan, especially after changing conditions"] },
+        { issue: "Spurious peaks (e.g., CO2 or water vapor bands)", causes: ["Purge gas insufficient or not stabilized", "Background collected under different atmospheric conditions than sample"], fixes: ["Allow nitrogen/dry-air purge to stabilize before scanning", "Recollect background immediately before the sample scan"] },
+        { issue: "Poor spectral match / low correlation coefficient against library", causes: ["Crystal not cleaned between samples (cross-contamination)", "Sample form differs from the reference (polymorph, hydrate, mixture)"], fixes: ["Thoroughly clean the ATR crystal with isopropyl alcohol between samples", "Confirm sample identity/form and compare against the correct reference spectrum"] }
+      ]},
+      sieve: { label: "Sieve Shaker", issues: [
+        { issue: "Poor reproducibility in particle size distribution", causes: ["Sieves worn, damaged, or not properly seated", "Inconsistent shaking time or amplitude between runs"], fixes: ["Inspect sieve mesh for damage/wear and replace as needed", "Standardize amplitude and time per the validated method for every run"] },
+        { issue: "Sample loss or spillage during shaking", causes: ["Sieve stack not properly clamped", "Sample overloaded on top sieve"], fixes: ["Ensure the sieve stack is securely clamped/seated before starting", "Use the recommended sample mass to avoid overloading (typically ~25-100 g depending on mesh size)"] },
+        { issue: "Mass balance does not close (sum of fractions ≠ starting weight)", causes: ["Static charge causing fines to adhere to sieve walls", "Sample not fully dedusted or transferred between sieves"], fixes: ["Use anti-static aids or brief grounding for fine, cohesive powders", "Carefully tap/brush each sieve to recover all retained material before weighing"] }
+      ]},
+      friability: { label: "Friability Tester", issues: [
+        { issue: "Result consistently fails specification (>1.0% loss)", causes: ["Tablets not dedusted before initial weighing", "Incorrect drum speed or revolution count", "Tablets chipping due to inherent formulation weakness"], fixes: ["Dedust tablets thoroughly before recording W1", "Verify drum rotates at 25 RPM for exactly 100 revolutions (4 minutes)", "Flag to formulation/production if failure is reproducible and not equipment-related"] },
+        { issue: "Tablets jamming or not tumbling freely in the drum", causes: ["Drum overloaded with too many tablets", "Baffle or drum insert damaged"], fixes: ["Use the correct tablet count for drum size (commonly 10 tablets if >6.5 g each, else 20)", "Inspect drum baffle/insert for damage and replace if needed"] }
+      ]},
+      ph: { label: "pH Meter", issues: [
+        { issue: "Slow response or drifting reading", causes: ["Electrode membrane dried out or coated/fouled", "Reference junction clogged"], fixes: ["Rehydrate/soak the electrode in storage solution and clean the bulb", "Soak or clean the reference junction per manufacturer instructions"] },
+        { issue: "Calibration slope out of acceptable range (95-105%)", causes: ["Expired or contaminated calibration buffers", "Aged electrode nearing end of life"], fixes: ["Use fresh, in-date buffers and avoid cross-contaminating buffer bottles", "Replace the electrode if slope remains out of range after cleaning"] },
+        { issue: "Unstable reading in low-ionic-strength samples", causes: ["Sample lacks sufficient ionic strength for stable junction potential"], fixes: ["Allow longer stabilization time or use an ionic-strength adjustment approach appropriate to the method"] }
+      ]},
+      conductivity: { label: "Conductivity Meter", issues: [
+        { issue: "Reading drifts or will not stabilize", causes: ["Cell not fully rinsed between samples (carryover)", "Trapped air bubbles in the cell"], fixes: ["Rinse the cell thoroughly with purified water between each measurement", "Gently agitate to dislodge trapped air before reading"] },
+        { issue: "Calibration fails against standard KCl solution", causes: ["Cell constant not entered correctly", "Cell surfaces fouled/contaminated"], fixes: ["Re-enter or re-determine the cell constant per manufacturer procedure", "Clean cell electrodes per SOP (e.g., mild detergent rinse) and recalibrate"] },
+        { issue: "Result affected by temperature", causes: ["Temperature compensation not enabled or ATC probe faulty"], fixes: ["Enable automatic temperature compensation and verify the ATC probe reads correctly"] }
+      ]},
+      dissolution: { label: "Dissolution Apparatus", issues: [
+        { issue: "Vessel temperature out of 37.0°C ± 0.5°C range", causes: ["Water bath not equilibrated before starting", "Heater/circulator malfunction"], fixes: ["Allow the bath to fully equilibrate and verify with a calibrated thermometer before each run", "Service or replace the heating/circulation unit if it cannot hold temperature"] },
+        { issue: "Poor reproducibility between vessels", causes: ["Paddle/basket height or wobble out of tolerance", "Vessel not centered or level"], fixes: ["Verify shaft height, wobble, and centering per mechanical qualification limits", "Check vessel leveling and seating in the water bath"] },
+        { issue: "Tablet/capsule sticks to the vessel bottom (coning)", causes: ["Excessive static or the dosage form adhering under the paddle", "Sinker not used where required"], fixes: ["Use a validated sinker for floating or sticking dosage forms per the method", "Confirm paddle/basket clearance from the vessel bottom is per specification"] },
+        { issue: "Sample results trend low", causes: ["Filter adsorbing the active ingredient", "Air bubbles (degassing insufficient) affecting dissolution"], fixes: ["Verify filter compatibility with the analyte or use a filter type validated for the method", "Ensure dissolution medium is adequately degassed before the run"] }
+      ]},
+      moisture: { label: "Moisture Analyzer (LOD)", issues: [
+        { issue: "Result highly variable between replicates", causes: ["Uneven sample layer thickness on the pan", "Sample particle size too large for even heat penetration"], fixes: ["Spread sample as a thin, even layer across the entire pan", "Grind or reduce particle size where the method allows, for more uniform drying"] },
+        { issue: "Endpoint never reached / analysis runs excessively long", causes: ["Sample degrading or decomposing rather than just losing moisture", "Drying temperature set too low for the matrix"], fixes: ["Check if weight loss is due to decomposition and adjust method/temperature accordingly", "Confirm the drying temperature matches the validated method for that material"] },
+        { issue: "Result reads higher than expected", causes: ["Sample hygroscopic and absorbing moisture from air before testing", "Pan not tared correctly"], fixes: ["Minimize exposure time between sampling and analysis; work quickly", "Re-tare the empty pan on the balance immediately before adding sample"] }
+      ]}
+    };
+
+    function populateTroubleshootSelect() {
+      const select = document.getElementById('troubleshootSelect');
+      Object.keys(troubleshootData).forEach(key => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.innerText = troubleshootData[key].label;
+        select.appendChild(opt);
+      });
+    }
+
+    function loadTroubleshoot(key) {
+      const display = document.getElementById('troubleshootDisplay');
+      if (!key || !troubleshootData[key]) {
+        display.innerHTML = '<p class="text-xs text-slate-400 italic">Select an instrument above to view its troubleshooting guide.</p>';
+        return;
+      }
+      const entry = troubleshootData[key];
+      display.innerHTML = entry.issues.map(item => `
+        <div class="p-4 bg-slate-900 rounded-lg border border-slate-700">
+          <h3 class="font-bold text-sm text-white mb-2">${item.issue}</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+            <div>
+              <p class="font-semibold text-slate-400 mb-1">Likely Causes</p>
+              <ul class="list-disc list-inside space-y-1">${item.causes.map(c => `<li>${c}</li>`).join('')}</ul>
+            </div>
+            <div>
+              <p class="font-semibold text-blue-400 mb-1">Corrective Steps</p>
+              <ul class="list-disc list-inside space-y-1">${item.fixes.map(f => `<li>${f}</li>`).join('')}</ul>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ===================== QUIZ DATA ENGINE (Categorized, 30 Questions) =====================
+    const quizQuestions = [
+      // --- Titrimetry & Volumetric Analysis ---
+      { category: "Titrimetry & Volumetric Analysis", q: "Which primary standard is commonly used to standardize 0.1 N Sodium Hydroxide (NaOH)?", options: ["Potassium Hydrogen Phthalate (KHP)", "Sodium Carbonate", "Sodium Chloride", "Oxalic Acid"], answer: 0, explanation: "KHP is the primary acid standard recommended for standardizing NaOH titrants." },
+      { category: "Titrimetry & Volumetric Analysis", q: "Which primary standard is used to standardize 0.1 N Hydrochloric Acid (HCl)?", options: ["Anhydrous Sodium Carbonate", "Potassium Iodate", "Silver Nitrate", "Calcium Carbonate"], answer: 0, explanation: "Anhydrous sodium carbonate is a common primary base standard for standardizing HCl." },
+      { category: "Titrimetry & Volumetric Analysis", q: "0.1 N Silver Nitrate (AgNO₃) is typically standardized against which primary standard?", options: ["Dried Sodium Chloride", "Sodium Oxalate", "EDTA", "Potassium Hydrogen Phthalate"], answer: 0, explanation: "Dried, high-purity NaCl reacts stoichiometrically with AgNO3 and is the standard reference." },
+      { category: "Titrimetry & Volumetric Analysis", q: "Which primary standard is used to standardize 0.1 N Potassium Permanganate (KMnO₄)?", options: ["Sodium Oxalate", "Potassium Iodate", "Calcium Carbonate", "Sodium Carbonate"], answer: 0, explanation: "Sodium oxalate undergoes a well-characterized redox reaction with permanganate, making it the reference standard." },
+      { category: "Titrimetry & Volumetric Analysis", q: "Sodium Thiosulfate (Na₂S₂O₃) solutions are typically standardized against which compound?", options: ["Potassium Iodate (KIO₃)", "Sodium Chloride", "Sodium Carbonate", "EDTA"], answer: 0, explanation: "KIO3 liberates a known amount of iodine, which is then titrated with thiosulfate for standardization." },
+      { category: "Titrimetry & Volumetric Analysis", q: "EDTA solutions used in complexometric titration are commonly standardized against which primary standard?", options: ["Calcium Carbonate", "Sodium Oxalate", "Potassium Hydrogen Phthalate", "Sodium Chloride"], answer: 0, explanation: "Dried calcium carbonate provides a known Ca2+ content for standardizing EDTA solutions." },
+      // --- Chromatography ---
+      { category: "Chromatography (HPLC/GC)", q: "In Reversed-Phase HPLC (RP-HPLC), how does the stationary phase polarity compare to the mobile phase?", options: ["Stationary phase is non-polar; mobile phase is polar", "Stationary phase is polar; mobile phase is non-polar", "Both phases are non-polar", "Both phases are polar"], answer: 0, explanation: "RP-HPLC uses a hydrophobic (non-polar) column such as C18 with a comparatively polar mobile phase." },
+      { category: "Chromatography (HPLC/GC)", q: "What is the typical %RSD acceptance limit for peak area in an HPLC system suitability standard sequence?", options: ["≤ 2.0%", "≤ 10.0%", "≤ 0.1%", "≤ 25.0%"], answer: 0, explanation: "A %RSD of 2.0% or less across replicate standard injections is a common system suitability requirement." },
+      { category: "Chromatography (HPLC/GC)", q: "What does the theoretical plate number of an HPLC column primarily indicate?", options: ["Column separation efficiency", "Mobile phase pH", "Detector sensitivity", "Sample solubility"], answer: 0, explanation: "Theoretical plate number is a measure of how efficiently a column separates analytes." },
+      { category: "Chromatography (HPLC/GC)", q: "Which GC detector is most selective for halogenated compounds?", options: ["Electron Capture Detector (ECD)", "Flame Ionization Detector (FID)", "Thermal Conductivity Detector (TCD)", "UV Detector"], answer: 0, explanation: "ECD is highly sensitive to electronegative, halogen-containing compounds." },
+      { category: "Chromatography (HPLC/GC)", q: "What does FID stand for in gas chromatography, and what is it primarily used for?", options: ["Flame Ionization Detector — detecting organic carbon-containing compounds", "Fixed Ion Detector — detecting inorganic salts", "Fluorescence Intensity Detector — detecting fluorescent tags", "Filtered Infrared Detector — detecting IR-active gases"], answer: 0, explanation: "FID ionizes organic compounds in a hydrogen flame and is widely used for general organic analysis in GC." },
+      { category: "Chromatography (HPLC/GC)", q: "What is a typical acceptance limit for the tailing factor of a chromatographic peak per USP <621>?", options: ["≤ 2.0", "≤ 0.5", "≤ 10.0", "≤ 100"], answer: 0, explanation: "A tailing factor of 2.0 or less is a commonly applied system suitability criterion." },
+      // --- Spectroscopy ---
+      { category: "Spectroscopy", q: "For linear Beer-Lambert response on a UV-Vis spectrophotometer, absorbance readings should typically fall within what range?", options: ["0.2 to 0.8 AU", "0.01 to 0.05 AU", "1.5 to 3.0 AU", "0 AU exactly"], answer: 0, explanation: "Absorbance between roughly 0.2 and 0.8 AU keeps measurements within the linear, most accurate response range." },
+      { category: "Spectroscopy", q: "What physical property does a polarimeter measure?", options: ["Optical rotation of plane-polarized light", "Refractive index", "Viscosity", "pH"], answer: 0, explanation: "Polarimeters measure the angle by which a chiral sample rotates plane-polarized light." },
+      { category: "Spectroscopy", q: "Which material is commonly used for the ATR crystal in an FTIR spectrometer?", options: ["Diamond or Zinc Selenide (ZnSe)", "Ordinary glass", "Aluminum", "Polyethylene"], answer: 0, explanation: "Diamond and ZnSe are durable, IR-transparent materials well suited to ATR sampling." },
+      { category: "Spectroscopy", q: "The Beer-Lambert law relates absorbance to which of the following?", options: ["Concentration and path length", "Temperature and pressure", "Viscosity and density", "pH and conductivity"], answer: 0, explanation: "Beer-Lambert law states absorbance is proportional to concentration and the optical path length." },
+      { category: "Spectroscopy", q: "What wavelength is conventionally used for polarimetric measurements (the Sodium D line)?", options: ["589 nm", "254 nm", "410 nm", "700 nm"], answer: 0, explanation: "The Sodium D line at 589 nm is the standard reference wavelength for specific rotation measurements." },
+      { category: "Spectroscopy", q: "How is raw material identity typically confirmed using FTIR?", options: ["Matching the sample spectrum against a reference library (correlation coefficient)", "Measuring the sample's boiling point", "Weighing the sample before and after heating", "Titrating the sample to an endpoint"], answer: 0, explanation: "A sufficiently high spectral correlation coefficient against a reference spectrum confirms identity." },
+      // --- Physical Testing ---
+      { category: "Physical Testing", q: "What is the typical USP acceptance limit for tablet friability percentage loss after 100 revolutions?", options: ["≤ 1.0%", "≤ 2.5%", "≤ 0.1%", "≤ 5.0%"], answer: 0, explanation: "A maximum weight loss of no more than 1.0% is generally considered acceptable for most pharmaceutical tablets." },
+      { category: "Physical Testing", q: "What is the standard dissolution medium temperature specified for most USP dissolution testing?", options: ["37.0°C ± 0.5°C", "25.0°C ± 1.0°C", "50.0°C ± 2.0°C", "20.0°C ± 0.5°C"], answer: 0, explanation: "37.0°C ± 0.5°C approximates physiological body temperature for dissolution testing." },
+      { category: "Physical Testing", q: "What does Loss on Drying (LOD) on a moisture analyzer primarily measure?", options: ["Weight loss due to moisture and volatile content on heating", "Total ash content", "Particle density", "Melting point"], answer: 0, explanation: "LOD quantifies the weight lost when a sample is heated, attributed mainly to moisture/volatiles." },
+      { category: "Physical Testing", q: "What does sieve analysis primarily determine?", options: ["Particle size distribution", "Chemical purity", "Optical rotation", "pH of a suspension"], answer: 0, explanation: "Sieve analysis separates and quantifies particles by size fraction using graded mesh sieves." },
+      { category: "Physical Testing", q: "In dissolution testing, what is the key difference between USP Apparatus I and Apparatus II?", options: ["Apparatus I uses a basket; Apparatus II uses a paddle", "Apparatus I uses UV detection; Apparatus II uses HPLC", "Apparatus I is for liquids only; Apparatus II is for solids only", "There is no difference"], answer: 0, explanation: "USP Apparatus I is the rotating basket method, while Apparatus II is the rotating paddle method." },
+      { category: "Physical Testing", q: "What is the typical acceptable slope range when calibrating a pH meter with standard buffers?", options: ["95% to 105%", "50% to 75%", "150% to 200%", "10% to 25%"], answer: 0, explanation: "A calibration slope between roughly 95% and 105% indicates a healthy, responsive electrode." },
+      // --- GMP & Regulatory ---
+      { category: "GMP & Regulatory", q: "Which ICH guideline covers validation of analytical procedures?", options: ["Q2(R2)", "Q7", "Q10", "Q1A"], answer: 0, explanation: "ICH Q2(R2) provides the internationally harmonized framework for analytical method validation." },
+      { category: "GMP & Regulatory", q: "What does the abbreviation OOS stand for in a QC laboratory context?", options: ["Out of Specification", "Order of Sequence", "Optical Output Signal", "Operational Storage System"], answer: 0, explanation: "OOS refers to a test result that falls outside established acceptance criteria." },
+      { category: "GMP & Regulatory", q: "What does GLP stand for?", options: ["Good Laboratory Practice", "General Lab Protocol", "Guided Laboratory Procedure", "Global Lab Placement"], answer: 0, explanation: "GLP is a quality system covering the organizational process and conditions for non-clinical studies and lab work." },
+      { category: "GMP & Regulatory", q: "As a general rule of thumb, how long can an aqueous HPLC mobile phase (no organic solvent) typically be held on-system before microbial growth becomes a concern?", options: ["24 to 48 hours", "6 months", "10 minutes", "2 years"], answer: 0, explanation: "Purely aqueous buffers are prone to microbial growth and are generally limited to roughly 24-48 hours unless preserved or otherwise validated." },
+      { category: "GMP & Regulatory", q: "Which organization publishes the European Pharmacopoeia?", options: ["EDQM", "FDA", "WHO", "ISO"], answer: 0, explanation: "The European Directorate for the Quality of Medicines & HealthCare (EDQM) publishes the European Pharmacopoeia." },
+      { category: "GMP & Regulatory", q: "Why is a defined instrument calibration/qualification frequency important in a QC laboratory?", options: ["It helps ensure ongoing measurement accuracy and traceability", "It reduces the number of analysts required", "It replaces the need for method validation", "It is only a cosmetic/administrative requirement"], answer: 0, explanation: "Regular calibration and qualification maintain confidence that instrument results remain accurate and traceable over time." }
+    ];
+
+    let currentScore = 0;
+    let activeCategory = "All";
+
+    function getCategories() {
+      const cats = ["All"];
+      quizQuestions.forEach(q => { if (!cats.includes(q.category)) cats.push(q.category); });
+      return cats;
+    }
+
+    function renderCategoryBar() {
+      const bar = document.getElementById('quizCategoryBar');
+      bar.innerHTML = '';
+      getCategories().forEach(cat => {
+        const btn = document.createElement('button');
+        btn.innerText = cat === "All" ? "All Categories" : cat;
+        btn.className = (cat === activeCategory)
+          ? 'px-3 py-1.5 rounded font-semibold bg-blue-600 text-white'
+          : 'px-3 py-1.5 rounded font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600';
+        btn.onclick = () => { activeCategory = cat; renderCategoryBar(); renderQuiz(); };
+        bar.appendChild(btn);
+      });
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
+
+      quizQuestions.forEach((item, idx) => {
+        if (activeCategory !== "All" && item.category !== activeCategory) return;
+
+        const card = document.createElement('div');
+        card.className = "space-y-2 border-b border-slate-800 pb-4 last:border-0";
+        card.innerHTML = `
+          <p class="text-xs uppercase tracking-wide text-blue-400 font-semibold">${item.category}</p>
+          <p class="font-semibold text-slate-200 text-xs">${idx + 1}. ${item.q}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            ${item.options.map((opt, optIdx) => `
+              <button onclick="checkAnswer(${idx}, ${optIdx})" id="q${idx}-opt${optIdx}" class="p-2 bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded text-left text-slate-300 transition">${opt}</button>
+            `).join('')}
+          </div>
+          <p id="q${idx}-feedback" class="text-xs font-semibold hidden"></p>
+        `;
+        container.appendChild(card);
+      });
+
+      if (!container.innerHTML.trim()) {
+        container.innerHTML = '<p class="text-xs text-slate-400 italic">No questions in this category.</p>';
+      }
+    }
+
+    function checkAnswer(qIdx, selectedOpt) {
+      const question = quizQuestions[qIdx];
+      const feedback = document.getElementById(`q${qIdx}-feedback`);
+
+      // Disable all option buttons for this question once answered
+      question.options.forEach((_, optIdx) => {
+        const btn = document.getElementById(`q${qIdx}-opt${optIdx}`);
+        if (btn) btn.disabled = true;
+      });
+
+      if (selectedOpt === question.answer) {
+        feedback.innerText = `Correct! ${question.explanation}`;
+        feedback.className = "text-xs font-semibold text-green-400 mt-1";
+        currentScore += 10;
+      } else {
+        feedback.innerText = `Incorrect. Correct option: ${question.options[question.answer]}. ${question.explanation}`;
+        feedback.className = "text-xs font-semibold text-red-400 mt-1";
+      }
+      feedback.classList.remove('hidden');
+      document.getElementById('quizScore').innerText = `Score: ${currentScore}`;
+    }
+
+    function resetQuiz() {
+      currentScore = 0;
+      document.getElementById('quizScore').innerText = `Score: ${currentScore}`;
+      renderQuiz();
+    }
+
+    // ===================== Q&A / FILE UPLOAD (sanitized) =====================
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const list = document.getElementById('materialsList');
+        const newItem = document.createElement('div');
+        newItem.className = 'bg-slate-900 p-3.5 rounded-lg border border-slate-700 flex justify-between items-center';
+        newItem.innerHTML = `<div><h4 class="text-sm font-semibold text-blue-300">${escapeHtml(file.name)}</h4><p class="text-xs text-slate-400">Uploaded Document • ${(file.size / 1024).toFixed(1)} KB</p></div><span class="text-xs bg-blue-900/40 text-blue-400 px-2.5 py-1 rounded border border-blue-800">User Uploaded</span>`;
+        list.prepend(newItem);
+      }
+    }
+
+    function submitQuestion() {
+      const name = document.getElementById('visitorName').value.trim() || 'Anonymous Analyst';
+      const topic = document.getElementById('questionTopic').value.trim() || 'General Query';
+      const body = document.getElementById('questionBody').value.trim();
+      if (!body) return;
+
+      const qaList = document.getElementById('qaList');
+      const newCard = document.createElement('div');
+      newCard.className = 'bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2';
+      newCard.innerHTML = `<div class="flex justify-between items-center text-xs text-slate-400"><span class="font-bold text-blue-300">${escapeHtml(name)}</span><span>Topic: ${escapeHtml(topic)}</span></div><p class="text-sm text-slate-200">${escapeHtml(body)}</p><div class="bg-slate-800/60 p-2.5 rounded border border-slate-700 text-xs text-slate-400 italic">Awaiting response...</div>`;
+      qaList.prepend(newCard);
+      document.getElementById('questionBody').value = '';
+    }
+
+    // Initialize on load
+    window.onload = function() {
+      populateTroubleshootSelect();
+      renderCategoryBar();
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
